@@ -1,0 +1,25 @@
+aois:
+  - name: Kuhikugu
+    status: active
+    data_sources:
+      - lidar: "OpenTopography tile XYZ"
+      - oral_history: "Fritz 1707 mission trail"
+      - soil: "ADE Schmidt 2020"
+    overlays: [ndvi, myth_path, elevation]
+    validation_phase: Phase II
+    notes: "Promising site; anomaly cluster scored T1 by RevivalNet"
+
+  - name: Llanos de Mojos
+    status: active
+    data_sources:
+      - lidar: "USGS 1m DEM"
+      - forest_age: "MapBiomas 2018"
+    overlays: [chm, myth_alignment, hydrology]
+    validation_phase: Phase I
+    notes: "Pending TimefoldNet validation"
+
+  - name: Orinoco (Placeholder)
+    status: pending
+    data_sources: []
+    overlays: []
+    validation_phase: Phase 0
