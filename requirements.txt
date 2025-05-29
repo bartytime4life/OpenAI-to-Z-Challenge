@@ -1,0 +1,11 @@
+folium
+geopandas
+ipykernel
+jupyter
+matplotlib
+numpy
+pandas
+pyproj
+scikit-learn
+shapely
+simplekml

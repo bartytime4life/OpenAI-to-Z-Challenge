@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2">
+    <Document id="1">
+        <Style id="4">
+            <IconStyle id="5">
+                <color>ff0000ff</color>
+                <colorMode>normal</colorMode>
+                <scale>1.1</scale>
+                <heading>0</heading>
+                <Icon id="6">
+                    <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+                </Icon>
+            </IconStyle>
+            <LineStyle id="7">
+                <color>ff000000</color>
+                <colorMode>normal</colorMode>
+                <width>2</width>
+            </LineStyle>
+        </Style>
+        <Style id="10">
+            <IconStyle id="11">
+                <color>ff0000ff</color>
+                <colorMode>normal</colorMode>
+                <scale>1.1</scale>
+                <heading>0</heading>
+                <Icon id="12">
+                    <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+                </Icon>
+            </IconStyle>
+            <LineStyle id="13">
+                <color>ff000000</color>
+                <colorMode>normal</colorMode>
+                <width>2</width>
+            </LineStyle>
+        </Style>
+        <Style id="16">
+            <IconStyle id="17">
+                <color>ff0000ff</color>
+                <colorMode>normal</colorMode>
+                <scale>1.1</scale>
+                <heading>0</heading>
+                <Icon id="18">
+                    <href>http://maps.google.com/mapfiles/kml/pushpin/ylw-pushpin.png</href>
+                </Icon>
+            </IconStyle>
+            <LineStyle id="19">
+                <color>ff000000</color>
+                <colorMode>normal</colorMode>
+                <width>2</width>
+            </LineStyle>
+        </Style>
+        <Placemark id="3">
+            <name>Kuhikugu 1</name>
+            <styleUrl>#4</styleUrl>
+            <Point id="2">
+                <coordinates>-53.751,-11.571,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="9">
+            <name>Kuhikugu 2</name>
+            <styleUrl>#10</styleUrl>
+            <Point id="8">
+                <coordinates>-53.748,-11.574,0.0</coordinates>
+            </Point>
+        </Placemark>
+        <Placemark id="15">
+            <name>Kuhikugu 3</name>
+            <styleUrl>#16</styleUrl>
+            <Point id="14">
+                <coordinates>-53.754,-11.569,0.0</coordinates>
+            </Point>
+        </Placemark>
+    </Document>
+</kml>
