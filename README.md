@@ -1,3 +1,4 @@
+
 # 🗺️ OpenAI to Z Challenge – Amazonian Discovery Project
 
 Welcome to the expedition.
