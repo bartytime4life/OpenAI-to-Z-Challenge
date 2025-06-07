@@ -1,23 +1,71 @@
 version: '3.8'
 services:
-  backend:
-    build: .
-    command: bash -c "cd src && python feedback_app.py"
+  db:
+    image: postgis/postgis:13-3.3
+    environment:
+      POSTGRES_DB: engine
+      POSTGRES_USER: engine
+      POSTGRES_PASSWORD: changeme
     volumes:
-      - .:/app
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  redis:
+    image: redis:6-alpine
+    networks:
+      - backend
+
+  worker:
+    build: ./worker
+    command: celery -A tasks worker --loglevel=INFO
+    depends_on:
+      - redis
+      - db
+    networks:
+      - backend
+
+  api:
+    build: ./api
+    command: uvicorn main:app --host 0.0.0.0 --port 8000
     ports:
-      - "5000:5000"
-    env_file:
-      - .env.example
-  pipeline:
-    build: .
-    command: bash -c "python src/scoring_pipeline.py --input data/Archaeology_master.csv --feedback data/feedback.json --output results/AOI_index.csv"
+      - "8000:8000"
+    depends_on:
+      - worker
+      - db
+      - redis
+    networks:
+      - backend
+
+  updater:
+    build: ./updater
+    command: python etl/update_pipeline.py
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  tiles:
+    image: klokantech/tileserver-gl
     volumes:
-      - .:/app
-  frontend:
-    build: .
-    command: bash -c "cd AOI_Explorer && npm run dev -- --host 0.0.0.0"
-    volumes:
-      - .:/app
+      - ./web_map/tiles.mbtiles:/data/tiles.mbtiles
+    ports:
+      - "8080:80"
+    networks:
+      - backend
+
+  ui:
+    build: ./ui
     ports:
       - "3000:3000"
+    depends_on:
+      - api
+      - tiles
+    networks:
+      - backend
+
+volumes:
+  db_data:
+
+networks:
+  backend:

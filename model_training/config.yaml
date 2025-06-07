@@ -1,0 +1,6 @@
+revivalnet:
+  epochs: 50
+  batch_size: 16
+timefoldnet:
+  epochs: 20
+  batch_size: 32

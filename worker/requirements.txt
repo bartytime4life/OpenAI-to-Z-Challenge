@@ -1,0 +1,8 @@
+celery[redis]
+psycopg2-binary
+numpy
+pandas
+tensorflow
+scikit-learn
+geojson
+simplekml

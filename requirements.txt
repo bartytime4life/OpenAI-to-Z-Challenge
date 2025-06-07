@@ -1,8 +1,0 @@
-flask
-pytest
-flake8
-folium
-geopandas
-rasterio
-shapely
-requests
