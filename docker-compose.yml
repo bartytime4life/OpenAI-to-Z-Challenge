@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  backend:
+    build: .
+    command: bash -c "cd src && python feedback_app.py"
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env.example
+  pipeline:
+    build: .
+    command: bash -c "python src/scoring_pipeline.py --input data/Archaeology_master.csv --feedback data/feedback.json --output results/AOI_index.csv"
+    volumes:
+      - .:/app
+  frontend:
+    build: .
+    command: bash -c "cd AOI_Explorer && npm run dev -- --host 0.0.0.0"
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"

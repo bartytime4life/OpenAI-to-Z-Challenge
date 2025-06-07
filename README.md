@@ -1,102 +1,142 @@
 
-# 🗺️ OpenAI to Z Challenge – Amazonian Discovery Project
 
-Welcome to the expedition.
+## Field Feedback Loop
 
-This project aims to discover and verify undocumented archaeological sites in the Amazon Basin using AI models, remote sensing data, Indigenous knowledge, and historical overlays.
+A simple Flask app is provided for field teams to submit **AOI field notes**:
 
----
-
-## 🔍 Project Objective
-
-- Detect previously unknown sites linked to ancient Amazonian civilizations
-- Use open-source lidar, NDVI, ADE, myth-path, and paleoclimate datasets
-- Validate sites through two independent modalities
-- Generate high-quality, reproducible outputs for Kaggle’s OpenAI to Z submission
-
----
-
-## 📁 Folder Structure
-
+- Run the server:
+```bash
+cd src
+python feedback_app.py
 ```
-data/               → Archived sources (archaeology, oral history, soil, flora/fauna)
-notebooks/          → Jupyter workflows for processing and analysis
-src/                → Python modules (RevivalNet, TimefoldNet, ingest scripts)
-outputs/            → Anomaly maps, GeoJSONs, and final writeup
-maps_exports/       → Final KMZ/PNG/PDF visual ---
 
-## 🗺️ Maps Exports Documentation
+- **POST** feedback in JSON to `http://localhost:5000/feedback` with:
+  ```json
+  {
+    "AOI_ID": "X11",
+    "notes": "Visited site; walls eroded but mounds visible."
+  }
+  ```
 
-### Purpose
-The `maps_exports/` folder contains maps generated from GPS coordinates overlaid on Google Maps. These maps are designed for visualization and analysis purposes.
+- **GET** all feedback:
+  ```
+  curl http://localhost:5000/feedback
+  ```
 
-### File Formats
-- **PNG/JPEG**: For static image maps.
-- **GeoJSON**: For interactive map data.
-- **PDF**: For high-quality print-ready maps.
+The `data/feedback.json` file will store all submissions and can be ingested back into the scoring pipeline (`scoring_pipeline.py`) using the `--feedback data/feedback.json` flag to adjust AOI scores.
 
-### File Naming Conventions
-Files are named using the following format:
-- `map_<timestamp>.png`
-- `map_<location>.geojson`
+## Installation Requirements
 
-### Usage
-1. **Generate Maps**:
-   - Use the provided scripts to process GPS coordinates and overlay them on Google Maps.
-   - Export maps in desired formats (e.g., PNG, GeoJSON, PDF).
+### Python Backend
+Install Python dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-2. **Examples**:
-   - `map_20230530.png`: Static map image generated on May 30, 2023.
-   - `map_amazon_rainforest.geojson`: Interactive map of the Amazon Rainforest.
+### Frontend Explorer
+Navigate to the `AOI_Explorer/` directory and install Node modules:
+```bash
+cd AOI_Explorer
+npm install
+```
 
-### Notes
-- Ensure all generated files are validated for accuracy and compatibility before upload.
-- Use consistent naming conventions for better organization.
+Ensure you have Node.js (v14+) and npm installed.
 
----
+### Running the Services
+1. **Start the Flask feedback server**:
+   ```bash
+   cd src
+   python feedback_app.py
+   ```
+2. **Run the scoring pipeline**:
+   ```bash
+   python scoring_pipeline.py --input ../data/Archaeology_master.csv --feedback ../data/feedback.json --output ../results/AOI_index.csv
+   ```
+3. **Run the frontend locally**:
+   ```bash
+   cd ../AOI_Explorer
+   npm run dev
+   ```
 
-## 🧠 Models in Use
+## Prerequisites
 
-- **RevivalNet**: weighted prediction grid (NDVI, fire, fauna, trails, CHM, myth)
-- **TimefoldNet**: memory-decay + epoch validation model (anchored to paleodata)
+Before installation, ensure the following OS-level dependencies are installed:
 
----
+### Ubuntu / Debian
+```bash
+sudo apt update
+sudo apt install -y gdal-bin libgdal-dev libgeos-dev proj-bin libproj-dev libspatialindex-dev
+```
 
-## ✅ Submission Criteria
+### macOS (Homebrew)
+```bash
+brew install gdal geos proj spatialindex
+```
 
-To comply with Kaggle rules:
-- Use at least 2 open data sources per site
-- Cite lidar tile IDs, DOI, or dataset links
-- Ensure reproducibility of each prediction pipeline
+### Environment Variables
+Create a `.env` file in the project root with:
+```bash
+EARTHDATA_USER=<your_earthdata_username>
+EARTHDATA_PASS=<your_earthdata_password>
+OPENAI_API_KEY=<your_openai_api_key>
+```
 
----
 
-## 🛠️ AOI Status Tracker
+### System Dependencies
 
-See `project_config.yaml` for active region tracking, validation phases, and overlay status.
+On **Ubuntu**:
+```bash
+sudo apt update
+sudo apt install -y gdal-bin libgdal-dev libgeos-dev proj-bin libproj-dev libspatialindex-dev
+```
 
----
+On **macOS** (Homebrew):
+```bash
+brew install gdal geos proj spatialindex
+```
 
-## 📜 Automation Script Setup
+### Environment Variables
 
-### Purpose
-Scripts for automating map generation and exporting are available in the repository. These scripts use Python libraries and APIs to process GPS data.
+Copy `.env.sample` to `.env` and fill in credentials:
+```bash
+cp .env.sample .env
+```
 
-### Workflow
-1. **Input**: Read GPS coordinates from a file or database.
-2. **Processing**: Use Python libraries like `folium`, `matplotlib`, or `geopy` to visualize data.
-3. **Overlay**: Integrate Google Maps API for map overlays.
-4. **Export**: Save maps in PNG, GeoJSON, or PDF formats.
+### Data Download
 
-### Example Libraries
-- **folium**: For creating interactive maps.
-- **matplotlib**: For visualizing map data.
-- **geopy**: For handling GPS data.
-- **Google Maps API**: For advanced overlays.
+Use the stub script to fetch datasets:
+```bash
+python3 src/download_data.py --gedi --anadem --jers --lidar --output data/raw
+```
 
----
+### Docker Setup (Optional)
 
-Final submission due **June 29, 2025**. Let’s uncover the lost civilizations beneath the canopy.
+Build and run all services via Docker Compose:
+```bash
+docker-compose up --build
+```
 
----
 
+## Environment Configuration
+
+Copy the `.env.example` to `.env` and fill in your credentials:
+```bash
+cp .env.example .env
+```
+
+## Data Download
+
+Use the `download_data.py` script to fetch large datasets:
+```bash
+python src/download_data.py
+```
+
+## Docker Deployment
+
+Build and run all services via Docker Compose:
+```bash
+docker-compose up --build
+```
+- **backend** runs the Flask feedback server on port 5000  
+- **pipeline** executes the scoring pipeline  
+- **frontend** serves the React app on port 3000  

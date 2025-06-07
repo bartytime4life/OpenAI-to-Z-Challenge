@@ -1,11 +1,8 @@
+flask
+pytest
+flake8
 folium
 geopandas
-ipykernel
-jupyter
-matplotlib
-numpy
-pandas
-pyproj
-scikit-learn
+rasterio
 shapely
-simplekml
+requests
